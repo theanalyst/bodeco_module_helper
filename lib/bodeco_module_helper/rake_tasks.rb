@@ -50,8 +50,14 @@ task :lint do
   PuppetLint.configuration.disable_arrow_alignment
   PuppetLint.configuration.disable_class_inherits_from_params_class
   PuppetLint.configuration.disable_class_parameter_defaults
-  PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
+  PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp', 'vendor/**/*.pp']
 end
+
+require 'puppet-syntax/tasks/puppet-syntax'
+PuppetSyntax.exclude_paths ||= []
+PuppetSyntax.exclude_paths << "spec/fixtures/**/*"
+PuppetSyntax.exclude_paths << "pkg/**/*"
+PuppetSyntax.exclude_paths << "vendor/**/*"
 
 desc 'Validate puppet manifests, ERB templates, and Ruby files.'
 task :validate do
